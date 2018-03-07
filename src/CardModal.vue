@@ -12,18 +12,18 @@
     @afterLeave="afterLeave"
   >
     <div :class="classes" v-if="show">
-      <div class="modal-background" @click="deactive"></div>
+      <div class="modal-background" @click="!removeDeactiveAction && deactive"></div>
       <div class="modal-card">
         <header class="modal-card-head">
           <p class="modal-card-title">{{ title }}</p>
-          <button class="delete" @click="deactive"></button>
+          <button class="delete" v-if="!removeDeactiveAction" @click="deactive"></button>
         </header>
         <section class="modal-card-body">
           <slot></slot>
         </section>
         <footer class="modal-card-foot">
           <a class="button is-primary" @click="ok">{{ okText }}</a>
-          <a class="button" @click="cancel">{{ cancelText }}</a>
+          <a class="button" v-if="!hideCancelButton" @click="cancel">{{ cancelText }}</a>
         </footer>
       </div>
     </div>
@@ -47,6 +47,15 @@ export default {
     cancelText: {
       type: String,
       default: 'Cancel'
+    },
+    hideCancelButton: {
+      tyre: Boolean,
+      default: false,
+    },
+    // hide close button and background tap action
+    removeDeactiveAction: {
+      tyre: Boolean,
+      default: false,
     }
   },
 
